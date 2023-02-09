@@ -1,0 +1,178 @@
+#:import MDFillRoundFlatButton kivymd.uix.button.MDFillRoundFlatButton
+#:import ScreenManager,Screen kivy.uix.screenmanager
+#:import MDTextField kivymd.uix.textfield.MDTextField
+#import md_icons kivymd.icon_definitions
+#:import OneLineIconListItem kivymd.uix.list.OneLineIconListItem
+#:import images_path kivymd.images_path
+
+
+WindowManager:
+    id:win_man
+    MainWindow:
+    Window_mEq:
+    Window_tonic:
+    Window_ion:
+
+
+<MainWindow>:
+    name : "main"
+
+    FloatLayout:
+        padding: 150
+        orientation: 'vertical'
+
+        MDFillRoundFlatButton:
+            text: 'Oblicz ilość mEq/mmol/mOsm'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release:
+                app.root.current = "meq"
+
+        MDFillRoundFlatButton:
+            text: 'Obliczenia do toniczności'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release:
+                app.root.current = "tonic"
+
+        MDFillRoundFlatButton:
+            text: 'Obliczenia do dokładnej ilości jonów'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release:
+                app.root.current = "ion"
+
+
+
+
+<Window_mEq>:
+
+    name: "meq"
+    id: meq
+    FloatLayout:
+        padding: 250
+        orientation: 'vertical'
+
+        MDTextField:
+
+            id: nazwa
+            hint_text: ("Proszę podać symbol związku (np. Fe2(SO4)3)")
+            pos_hint: {"x":0., "top":.8}
+        MDTextField:
+            input_filter: 'float'
+            id: m
+            hint_text: ("Proszę podać masę soli (0.00g)")
+            pos_hint: {"x":0., "top":.6}
+
+        MDFillRoundFlatButton:
+            id: obl_meq
+            text: "Policz ilość mEq/l"
+            pos_hint: {"x":0.5, "top":.3}
+            on_release:
+                obl_meq.text = str(root.mEq())
+        MDFillRoundFlatButton:
+            id: obl_mmol
+            text: "Policz ilość mmol/l"
+            pos_hint: {"x":0.5, "top":.2}
+            on_release:
+                obl_mmol.text = str(root.mmol())
+
+        MDIconButton:
+            icon: 'keyboard-return'
+            on_release: app.root.current = "main"
+
+
+
+
+
+
+
+
+
+
+<Window_tonic>:
+    name: "tonic"
+    id: tonic
+    FloatLayout:
+        padding: 10
+        orientation: 'vertical'
+
+        MDFillRoundFlatButton:
+            id: obl_hiper
+            text: 'Obliczenia do osiągnięcia hipertoniczności'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release:
+                obl_hiper.text = str(root.hiper())
+
+        MDFillRoundFlatButton:
+            id: obl_izo
+            text: 'Obliczenia do osiągnięcia izotoniczności'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release:
+                obl_izo.text = str(root.izo())
+
+        MDFillRoundFlatButton:
+            id: obl_hipo
+            text: 'Obliczenia do osiągnięcia hipotoniczności'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.2}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release:
+                obl_hipo.text = str(root.hipo())
+
+        MDTextField:
+            id: nazwa
+            hint_text: ("Proszę podać symbol związku (np. Fe2(SO4)3)")
+            pos_hint: {"x":0., "top":.95}
+
+        MDTextField:
+            input_filter: 'float'
+            id: m
+            hint_text: ("Proszę podać masę soli (0.00g)")
+            pos_hint: {"x":0., "top":.8}
+
+        MDTextField:
+            id: nazwa_tonic
+            hint_text: ("Proszę podać symbol związku, którym chcesz zmieniać toniczność (np. Fe2(SO4)3)")
+            pos_hint: {"x":0., "top":.65}
+
+
+        MDIconButton:
+            icon: 'keyboard-return'
+            on_release: app.root.current = "main"
+
+
+<Window_ion>:
+    name: "ion"
+    id: ion
+    FloatLayout:
+        padding: 10
+        orientation: 'vertical'
+
+        MDTextField:
+            id: nazwa
+            hint_text: ("Proszę podać symbol związku, których jony potrzebujemy (np. Fe2(SO4)3)")
+            pos_hint: {"x":0., "top":.8}
+
+        MDTextField:
+            input_filter: 'float'
+            id: mmol
+            hint_text: ("Proszę podać ilość potrzebnych mmoli wybranego jonu")
+            pos_hint: {"x":0., "top":.7}
+        MDTextField:
+            input_filter: 'float'
+            id: Cp
+            hint_text: ("Proszę podać stężenie roztworu wyjściowego")
+            pos_hint: {"x":0., "top":.6}
+
+        MDFillRoundFlatButton:
+            id: obl_ion
+            text: "Policz objętość dodawanego roztworu"
+            pos_hint: {"x":0.5, "top":.3}
+            on_release:
+                obl_ion.text = str(root.ion())
+
+        MDIconButton:
+            icon: 'keyboard-return'
+            on_release: app.root.current = "main"
